@@ -3,9 +3,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+const authRoutes = require('./src/routes/authRoutes');
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
+app.use('/api/auth', authRoutes);
+
 
 app.get('/', (req, res) => {
     res.send('Finance Tracker API is running!');
