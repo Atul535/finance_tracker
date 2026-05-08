@@ -37,11 +37,11 @@ const getCategories = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
     try {
-        const categryId = parseInt(req.params.id);
+        const categoryId = parseInt(req.params.id);
         const userId = req.user.id;
 
         const category = await prisma.category.findFirst({
-            where: { id: categryId, userId }
+            where: { id: categoryId, userId }
         });
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
@@ -63,7 +63,7 @@ const updateCategory = async (req, res, next) => {
         const userId = req.user.id;
 
         const category = await prisma.category.findFirst({
-            where: { id: categryId, userId }
+            where: { id: categoryId, userId }
         });
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
