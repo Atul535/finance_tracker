@@ -6,7 +6,13 @@ const app = express();
 const authRoutes = require('./src/routes/authRoutes');
 const categoryRoutes = require('./src/routes/categoryRoutes');
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://finance-tracker-7o3o.onrender.com'], // Add your future frontend URL here later!
+    credentials: true, // This allows cookies/tokens to be sent
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
