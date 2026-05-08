@@ -50,10 +50,80 @@ const loginUser = async (req, res, next) => {
         }
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        return res.status(200).json({ message: 'Login Successful!', token });
+        const refreshToken = jwt.sign({ userId: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7);
+        await prisma.session.create({
+            data: {
+                userId: user.id,
+                token: refreshToken,
+                expiresAt: expiresAt
+            }
+        });
+        return res.status(200).json({ message: 'Login Successful!', token, refreshToken, expiresAt });
 
     } catch (error) {
         next(error);
+    }
+};
+
+const refreshAccessToken = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body;
+
+        if (!refreshToken) {
+            return res.status(401).json({ message: 'Refresh token is required' });
+        }
+
+        // 1. Verify the token signature
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+        // 2. Check if this exact session exists in our database
+        const session = await prisma.session.findUnique({
+            where: { refreshToken }
+        });
+
+        if (!session) {
+            return res.status(401).json({ message: 'Invalid session. Please log in again.' });
+        }
+
+        // 3. Generate a brand new pair of tokens
+        const newAccessToken = jwt.sign(
+            { userId: decoded.userId },
+            process.env.JWT_SECRET,
+            { expiresIn: '15m' }
+        );
+
+        const newRefreshToken = jwt.sign(
+            { userId: decoded.userId },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        // 4. Update the database: delete the old session, create a new one (Rotation!)
+        await prisma.session.delete({ where: { id: session.id } });
+
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 7);
+
+        await prisma.session.create({
+            data: {
+                userId: decoded.userId,
+                refreshToken: newRefreshToken,
+                expiresAt: expiresAt
+            }
+        });
+
+        // 5. Send the new tokens to the frontend
+        return res.status(200).json({
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken
+        });
+
+    } catch (error) {
+        // If the refresh token is expired or tampered with
+        return res.status(403).json({ message: 'Refresh token invalid or expired. Please log in again.' });
     }
 };
 
@@ -61,4 +131,5 @@ const loginUser = async (req, res, next) => {
 
 
 
-module.exports = { registerUser, loginUser };
+
+module.exports = { registerUser, loginUser, refreshAccessToken };

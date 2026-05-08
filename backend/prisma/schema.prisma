@@ -14,7 +14,35 @@ model User {
   profilePictureUrl String?  // The question mark makes it optional
   createdAt         DateTime @default(now())
   sessions          Session[]
+  categories        Category[]
+  transactions      Transaction[]
 }
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  type      String   // e.g., "INCOME" or "EXPENSE"
+  color     String?  // Optional color code
+  createdAt DateTime @default(now())
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  amount     Float
+  type       String   // e.g., "INCOME" or "EXPENSE"
+  date       DateTime
+  notes      String?
+  createdAt  DateTime @default(now())
+}
+
 
 model Session {
   id           String   @id @default(uuid())
