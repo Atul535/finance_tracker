@@ -1,8 +1,29 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import api from '../../../services/api';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ fullName: '', email: '', password: '' });
+
+  // 1. Setup the Register Mutation
+  const registerMutation = useMutation({
+    mutationFn: async (data) => {
+      // Send data to your /api/auth/register endpoint
+      const response = await api.post('/auth/register', data);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log("Registered Successfully!", data);
+      alert("Account created! Please log in.");
+      navigate("/login");
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.message || "Registration failed. Try again.";
+      alert(errorMessage);
+    }
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -10,7 +31,8 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Register data:", formData);
+    // 2. Trigger the mutation to actually save the user!
+    registerMutation.mutate(formData);
   };
 
   return (
@@ -59,8 +81,12 @@ const Register = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg w-100 fw-bold">
-            Sign Up
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-lg w-100 fw-bold"
+            disabled={registerMutation.isPending}
+          >
+            {registerMutation.isPending ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>
 
