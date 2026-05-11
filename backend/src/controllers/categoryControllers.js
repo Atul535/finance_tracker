@@ -24,7 +24,7 @@ const createCategory = async (req, res, next) => {
 const getCategories = async (req, res, next) => {
     try {
         const userId = req.user.id;
-        const categories = await prisma.categories.findMany({
+        const categories = await prisma.category.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' }
         });
