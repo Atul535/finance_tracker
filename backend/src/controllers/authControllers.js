@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { fullName, email, password } = req.body;
 
-        if (!name || !email || !password) {
+        if (!fullName || !email || !password) {
             return res.status(400).json({ message: "All fields are required!" });
         }
 
@@ -18,7 +18,7 @@ const registerUser = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await prisma.user.create({
             data: {
-                name,
+                name: fullName, // <--- SAVES AS 'name' TO MATCH THE DATABASE
                 email,
                 password: hashedPassword,
             }
@@ -36,6 +36,7 @@ const registerUser = async (req, res, next) => {
         next(error);
     }
 };
+
 
 const loginUser = async (req, res, next) => {
     try {
