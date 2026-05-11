@@ -1,33 +1,39 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"] // Enables multiple schemas
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["finance_tracker", "public"] 
 }
 
+
 model User {
-  id                Int      @id @default(autoincrement())
-  name          String
-  email             String   @unique
-  password      String
-  profilePictureUrl String?  // The question mark makes it optional
-  createdAt         DateTime @default(now())
+  id                Int           @id @default(autoincrement())
+  name              String
+  email             String        @unique
+  password          String
+  profilePictureUrl String?  
+  createdAt         DateTime      @default(now())
   sessions          Session[]
   categories        Category[]
   transactions      Transaction[]
+
+  @@schema("finance_tracker") // Force Prisma to use the correct schema!
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
-  type      String   // e.g., "INCOME" or "EXPENSE"
-  color     String?  // Optional color code
-  createdAt DateTime @default(now())
-
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  type         String        
+  color        String?  
+  createdAt    DateTime      @default(now())
   transactions Transaction[]
+
+  @@schema("finance_tracker")
 }
 
 model Transaction {
@@ -37,12 +43,13 @@ model Transaction {
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   amount     Float
-  type       String   // e.g., "INCOME" or "EXPENSE"
+  type       String   
   date       DateTime
   notes      String?
   createdAt  DateTime @default(now())
-}
 
+  @@schema("finance_tracker")
+}
 
 model Session {
   id           String   @id @default(uuid())
@@ -51,4 +58,6 @@ model Session {
   refreshToken String   @unique
   expiresAt    DateTime
   createdAt    DateTime @default(now())
+
+  @@schema("finance_tracker")
 }
