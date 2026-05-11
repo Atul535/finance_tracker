@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
+import api from '../../../services/api';
 
 const Categories = () => {
   // Placeholder data - we will fetch this from the backend soon!
-  const [categories, setCategories] = useState([
-    { id: 1, name: 'Salary', type: 'INCOME', color: '#10b981' },
-    { id: 2, name: 'Groceries', type: 'EXPENSE', color: '#ef4444' },
-  ]);
+  const queryClient = useQueryClient();
+
+  const {data:categories = [], isLoading} =useQuery({
+    queryKey:['categories'],
+    queryFn:async ()=>{
+      const response = await api.get('/categories/get');
+      return response.data;
+    }
+  });
+
+  const createCategories = useMutation({
+    mutationFn: async(newCategory)=>{
+      const response = await api.post('/categories/create', newCategory);
+      return response.data;
+    },
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:['categories']});
+      setFormData({ name: '', type: 'EXPENSE', color: '#6366f1' });
+      alert("Category created successfully!");
+    }
+  });
 
   const [formData, setFormData] = useState({ name: '', type: 'EXPENSE', color: '#6366f1' });
 
@@ -15,13 +34,24 @@ const Categories = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createCategories.mutate(formData);
     console.log("Create Category:", formData);
-    // TODO: Call Backend POST /api/categories
   };
 
+
+  const deleteCategories = useMutation({
+    mutationFn: async(id)=>{
+      await api.delete(`/categories/delete/${id}`);
+    },
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:['categories']});
+      alert("Category deleted successfully!");
+    }
+  });
+
   const handleDelete = (id) => {
+    deleteCategories.mutate(id);
     console.log("Delete Category:", id);
-    // TODO: Call Backend DELETE /api/categories/:id
   };
 
   return (
