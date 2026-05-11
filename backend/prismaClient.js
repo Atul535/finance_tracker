@@ -5,7 +5,9 @@ require('dotenv').config();
 
 const pool = new Pool({ 
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false } // This allows Render's self-signed certificates!
+    ssl: { rejectUnauthorized: false },
+    // This safely forces the 'pg' library to use your schema without throwing deprecation warnings!
+    options: '-c search_path="finance_tracker",public'
 });
 
 const adapter = new PrismaPg(pool);
