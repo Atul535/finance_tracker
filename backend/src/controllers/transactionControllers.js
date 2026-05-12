@@ -2,7 +2,7 @@ const prisma = require('../../prismaClient');
 
 const createTransaction = async (req, res, next) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user.id;
         const { amount, type, date, notes, categoryId } = req.body;
 
         if (!amount || !type || !date || !categoryId) {
@@ -27,7 +27,7 @@ const createTransaction = async (req, res, next) => {
 
 const getTransaction = async (req, res, next) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user.id;
         const transactions = await prisma.transaction.findMany({
             where: { userId },
             include: { category: true },
@@ -43,7 +43,7 @@ const getTransaction = async (req, res, next) => {
 
 const deleteTransaction = async (req, res, next) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user.id;
         const { id } = req.params;
 
         const transaction = await prisma.transaction.findUnique({ where: { id: parseInt(id) } });
@@ -57,4 +57,4 @@ const deleteTransaction = async (req, res, next) => {
     }
 };
 
-module.exports = {createTransaction,getTransaction,deleteTransaction};
+module.exports = { createTransaction, getTransaction, deleteTransaction };
