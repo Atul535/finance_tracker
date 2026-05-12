@@ -1,32 +1,14 @@
 import React, { useState } from 'react';
-import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
-import api from '../../../services/api';
+import { useGetCategories, useCreateCategory, useDeleteCategory, useUpdateCategory } from '../../../hooks/useCategories';
 
 const Categories = () => {
-  // Placeholder data - we will fetch this from the backend soon!
-  const queryClient = useQueryClient();
-
-  const {data:categories = [], isLoading} =useQuery({
-    queryKey:['categories'],
-    queryFn:async ()=>{
-      const response = await api.get('/categories/get');
-      return response.data;
-    }
-  });
-
-  const createCategories = useMutation({
-    mutationFn: async(newCategory)=>{
-      const response = await api.post('/categories/create', newCategory);
-      return response.data;
-    },
-    onSuccess:()=>{
-      queryClient.invalidateQueries({queryKey:['categories']});
-      setFormData({ name: '', type: 'EXPENSE', color: '#6366f1' });
-      alert("Category created successfully!");
-    }
-  });
-
   const [formData, setFormData] = useState({ name: '', type: 'EXPENSE', color: '#6366f1' });
+
+   const { data: categories = [], isLoading } = useGetCategories();
+  const createMutation = useCreateCategory(() => {
+    setFormData({ name: '', type: 'EXPENSE', color: '#6366f1' }); 
+  });
+  const deleteMutation = useDeleteCategory();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,23 +16,12 @@ const Categories = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createCategories.mutate(formData);
+    createMutation.mutate(formData);
     console.log("Create Category:", formData);
   };
 
-
-  const deleteCategories = useMutation({
-    mutationFn: async(id)=>{
-      await api.delete(`/categories/delete/${id}`);
-    },
-    onSuccess:()=>{
-      queryClient.invalidateQueries({queryKey:['categories']});
-      alert("Category deleted successfully!");
-    }
-  });
-
   const handleDelete = (id) => {
-    deleteCategories.mutate(id);
+    deleteMutation.mutate(id);
     console.log("Delete Category:", id);
   };
 

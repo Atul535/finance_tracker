@@ -1,42 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import api from '../../../services/api';
+import { useLoginMutation } from '../../../hooks/useAuth';
 
 const Login = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  // 1. Setup React Query Mutation
-  const loginMutation = useMutation({
-    mutationFn: async (data) => {
-      // This sends the POST request to our Axios instance (which points to Render)
-      const response = await api.post('/auth/login', data);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      // 2. What happens when login is successful?
-      console.log("Login Success!", data);
-      
-      // Save tokens in the browser so the user stays logged in
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-      localStorage.setItem('user', JSON.stringify(data.user));
-
-      // Redirect to the dashboard!
-      navigate('/dashboard');
-    },
-    onError: (error) => {
-      // 3. What happens if they use the wrong password?
-      const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
-      alert(errorMessage);
-    }
-  });
+  const loginMutation = useLoginMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // 4. Trigger the mutation instead of console.log

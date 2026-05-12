@@ -4,12 +4,13 @@ import MainLayout from './pages/layout/mainLayout';
 import Login from './pages/screens/auth_screen/login';
 import Register from './pages/screens/auth_screen/register';
 import Categories from './pages/screens/dashboard/categories';
-
+import {Toaster} from 'react-hot-toast';
 import './App.css';
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         
         {/* Auth Routes wrapped in AuthLayout */}

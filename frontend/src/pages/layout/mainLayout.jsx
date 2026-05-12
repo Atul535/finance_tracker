@@ -1,18 +1,20 @@
 import React from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
+import { useLogout } from '../../hooks/useAuth';
 
 const MainLayout = () => {
-  const navigate = useNavigate();
+
+  const logout = useLogout();
 
   const handleLogout = () => {
-    navigate('/login');
+    logout();
   };
 
   return (
-    <div className="d-flex min-vh-100 bg-light">
+    <div className="d-flex min-vh-100">
       
       {/* Sidebar */}
-      <nav className="bg-white shadow-sm border-end p-4 d-flex flex-column" style={{ width: '280px' }}>
+      <nav className="card shadow-sm border-end p-4 d-flex flex-column" style={{ width: '280px' }}>
         <h3 className="text-primary fw-bold mb-5">FinanceTracker</h3>
         
         <div className="d-flex flex-column gap-3 flex-grow-1">

@@ -1,29 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import api from '../../../services/api';
+import { Link } from 'react-router-dom';
+import { useRegisterMutation } from '../../../hooks/useAuth';
 
 const Register = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({ fullName: '', email: '', password: '' });
 
-  // 1. Setup the Register Mutation
-  const registerMutation = useMutation({
-    mutationFn: async (data) => {
-      // Send data to your /api/auth/register endpoint
-      const response = await api.post('/auth/register', data);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      console.log("Registered Successfully!", data);
-      alert("Account created! Please log in.");
-      navigate("/login");
-    },
-    onError: (error) => {
-      const errorMessage = error.response?.data?.message || "Registration failed. Try again.";
-      alert(errorMessage);
-    }
-  });
+  const registerMutation = useRegisterMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -1,20 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Premium Color Palette */
+  /* Premium Dark Theme Palette */
   --primary: #6366f1; /* Vibrant Indigo */
   --primary-hover: #4f46e5;
-  --bg-gradient-1: #e0e7ff;
-  --bg-gradient-2: #ede9fe;
-  --text-dark: #1e293b;
-  --text-light: #64748b;
-  --danger: #ef4444;
-  --success: #10b981;
+  
+  /* The Blue -> Indigo -> Violet Gradient */
+  --bg-gradient-1: #020617; /* Deep Blue */
+  --bg-gradient-2: #1e1b4b; /* Deep Indigo */
+  --bg-gradient-3: #2e1065; /* Deep Violet */
+  
+  /* Text Colors */
+  --text-dark: #f8fafc; /* Changed to off-white! */
+  --text-light: #cbd5e1; /* Light Slate */
   
   /* Glassmorphism Variables */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --glass-bg: rgba(15, 23, 42, 0.5); /* Semi-transparent dark bg */
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -25,10 +28,55 @@
 }
 
 body {
-  background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+  /* The sweeping dark gradient */
+  background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
+  background-attachment: fixed; /* Keeps gradient beautiful when scrolling */
   color: var(--text-dark);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
+/* =========================================
+   BOOTSTRAP DARK MODE OVERRIDES
+   ========================================= */
 
+/* Make Bootstrap Cards Glassmorphic */
+.card {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-dark) !important;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Override hardcoded dark text classes */
+.text-dark {
+  color: var(--text-dark) !important;
+}
+.text-muted {
+  color: var(--text-light) !important;
+}
+
+/* Style the Inputs for Dark Mode */
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: white !important;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25) !important;
+  border-color: var(--primary) !important;
+  color: white !important;
+}
+
+/* Fix the label colors */
+.form-label {
+  color: var(--text-dark);
+}
