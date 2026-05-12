@@ -80,3 +80,7 @@ body {
 .form-label {
   color: var(--text-dark);
 }
+option {
+  background-color: #1e1b4b !important; /* Deep Indigo */
+  color: white !important;
+}

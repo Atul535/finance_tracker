@@ -10,3 +10,9 @@ export const CATEGORY_ENDPOINTS = {
     DELETE: (id) => `/categories/delete/${id}`,
     UPDATE: (id) => `/categories/update/${id}`
 };
+
+export const TRANSACTION_ENDPOINTS = {
+    GET_ALL: '/transactions/get',
+    CREATE: '/transactions/create',
+    DELETE: (id) => `/transactions/delete/${id}`
+};

@@ -9,6 +9,9 @@ export const useGetCategories = () => {
         queryFn: async () => {
             const response = await api.get(CATEGORY_ENDPOINTS.GET_ALL);
             return response.data;
+        },
+        onError: (error) => {
+            notifyError('Failed to fetch categories..');
         }
     });
 };

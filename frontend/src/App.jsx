@@ -6,6 +6,7 @@ import Register from './pages/screens/auth_screen/register';
 import Categories from './pages/screens/dashboard/categories';
 import {Toaster} from 'react-hot-toast';
 import './App.css';
+import Transactions from './pages/screens/dashboard/transactions';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<div><h1>Dashboard Home</h1><p>Welcome to your finances!</p></div>} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/transactions" element={<Transactions />} />
           {/* We will add /transactions and /categories here later! */}
         </Route>
         
