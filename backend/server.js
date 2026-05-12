@@ -5,6 +5,7 @@ require('dotenv').config();
 const app = express();
 const authRoutes = require('./src/routes/authRoutes');
 const categoryRoutes = require('./src/routes/categoryRoutes');
+const transactionRoutes = require('./src/routes/transactionRoutes');
 
 app.use(cors({
     origin: ['http://localhost:5173', 'https://finance-tracker-7o3o.onrender.com'], // Add your future frontend URL here later!
@@ -16,6 +17,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 
 app.get('/', (req, res) => {
