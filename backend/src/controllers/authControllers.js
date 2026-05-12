@@ -62,7 +62,18 @@ const loginUser = async (req, res, next) => {
                 expiresAt: expiresAt
             }
         });
-        return res.status(200).json({ message: 'Login Successful!', token, refreshToken, expiresAt });
+        return res.status(200).json({
+            message: 'Login Successful!',
+            accessToken: token, // Rename it to accessToken here
+            refreshToken: refreshToken,
+            expiresAt: expiresAt,
+            user: {             // Send the user details back!
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }
+        });
+
 
     } catch (error) {
         next(error);
