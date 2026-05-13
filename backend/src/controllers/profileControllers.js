@@ -55,4 +55,30 @@ const changePassword = async (req, res, next) => {
     }
 };
 
-module.exports = { updateProfile, changePassword };
+const getProfile = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { // Exclude password!
+                id: true,
+                name: true,
+                email: true,
+                profilePictureUrl: true,
+                createdAt: true
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Don't forget to export it!
+module.exports = { getProfile, updateProfile, changePassword };
