@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useLogout } from '../../hooks/useAuth';
 
 const MainLayout = () => {
@@ -18,17 +18,18 @@ const MainLayout = () => {
         <h3 className="text-primary fw-bold mb-5">FinanceTracker</h3>
         
         <div className="d-flex flex-column gap-3 flex-grow-1">
-          <Link to="/dashboard" className="text-dark fw-semibold text-decoration-none p-2 rounded">
+          <NavLink to="/dashboard" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
             Dashboard
-          </Link>
-          <Link to="/transactions" className="text-secondary fw-semibold text-decoration-none p-2 rounded">
+          </NavLink>
+          
+          <NavLink to="/transactions" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
             Transactions
-          </Link>
-          <Link to="/categories" className="text-secondary fw-semibold text-decoration-none p-2 rounded">
+          </NavLink>
+          
+          <NavLink to="/categories" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
             Categories
-          </Link>
+          </NavLink>
         </div>
-
         <button onClick={handleLogout} className="btn btn-outline-danger fw-bold mt-auto">
           Logout
         </button>

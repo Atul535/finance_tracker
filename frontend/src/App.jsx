@@ -4,6 +4,7 @@ import MainLayout from './pages/layout/mainLayout';
 import Login from './pages/screens/auth_screen/login';
 import Register from './pages/screens/auth_screen/register';
 import Categories from './pages/screens/dashboard/categories';
+import Dashboard from './pages/screens/dashboard/dashboard';
 import {Toaster} from 'react-hot-toast';
 import './App.css';
 import Transactions from './pages/screens/dashboard/transactions';
@@ -22,10 +23,9 @@ function App() {
 
         {/* Dashboard Routes wrapped in MainLayout */}
         <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<div><h1>Dashboard Home</h1><p>Welcome to your finances!</p></div>} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/transactions" element={<Transactions />} />
-          {/* We will add /transactions and /categories here later! */}
         </Route>
         
         {/* Default Redirect */}
