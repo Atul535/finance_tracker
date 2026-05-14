@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/transactions', transactionRoutes);
-app.use('/api/profile',profileRoutes);
+app.use('/api/profile', profileRoutes);
 
 
 app.get('/', (req, res) => {
@@ -30,3 +30,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+console.log("Cloud Name Exists?", !!process.env.CLOUDINARY_CLOUD_NAME);
+console.log("API Key Exists?", !!process.env.CLOUDINARY_API_KEY);
