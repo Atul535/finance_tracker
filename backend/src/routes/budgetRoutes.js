@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authmiddleware } = require('../middleware/authMiddleware');
+const { authmiddleware } = require('../middlewares/authMiddleware');
 const { setBudget, getBudget, deleteBudget } = require('../controllers/budgetControllers');
 
 
