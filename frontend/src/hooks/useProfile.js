@@ -20,7 +20,7 @@ export const useUpdateProfile = () => {
         mutationFn: async (formData) => {
             const response = await api.put(PROFILE_ENDPOINTS.UPDATE, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             return response.data;

@@ -22,3 +22,9 @@ export const PROFILE_ENDPOINTS = {
     GET: '/profile/get',
     CHANGE_PASSWORD: '/profile/change-password'
 };
+
+export const BUDGET_ENDPOINTS = {
+    GET: '/budget/get',
+    CREATE: '/budget/create',
+    DELETE: (id) => `/budget/delete/${id}`
+};

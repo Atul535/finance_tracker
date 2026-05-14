@@ -51,7 +51,7 @@ export const useDeleteCategory = () => {
 export const useUpdateCategory = (onSuccessCallback) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (data) => {
+        mutationFn: async ({id, ...data}) => {
             const response = await api.put(CATEGORY_ENDPOINTS.UPDATE(id), data);
             return response.data;
         },

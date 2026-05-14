@@ -84,3 +84,40 @@ option {
   background-color: #1e1b4b !important; /* Deep Indigo */
   color: white !important;
 }
+
+
+/* =========================================
+   BOOTSTRAP MODAL DARK OVERRIDES
+   ========================================= */
+
+/* Apply dark glassmorphism to Modal */
+.modal-content {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-dark) !important;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Ensure modal borders match our glass border */
+.modal-header, .modal-footer {
+  border-color: var(--glass-border) !important;
+}
+
+/* Make the close (X) button visible on dark background */
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+
+/* =========================================
+   BOOTSTRAP LIST GROUP DARK OVERRIDES
+   ========================================= */
+
+/* Make list items transparent to show the glass card behind them */
+.list-group-item {
+  background-color: transparent !important;
+  color: var(--text-dark) !important;
+  border-color: var(--glass-border) !important;
+}

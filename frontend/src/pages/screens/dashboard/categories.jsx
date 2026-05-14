@@ -3,6 +3,7 @@ import { useGetCategories, useCreateCategory, useDeleteCategory, useUpdateCatego
 
 const Categories = () => {
   const [formData, setFormData] = useState({ name: '', type: 'EXPENSE', color: '#6366f1' });
+  const [editingCategory, setEditingCategory] = useState(null);
 
    const { data: categories = [], isLoading } = useGetCategories();
   const createMutation = useCreateCategory(() => {
@@ -10,8 +11,16 @@ const Categories = () => {
   });
   const deleteMutation = useDeleteCategory();
 
+  const updateMutation = useUpdateCategory(() => {
+    setEditingCategory(null); // Close the modal on success
+  });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleEditChange = (e) => {
+    setEditingCategory({ ...editingCategory, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -20,8 +29,21 @@ const Categories = () => {
     console.log("Create Category:", formData);
   };
 
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    // Pass the id and the updated data to our fixed hook!
+    updateMutation.mutate({
+      id: editingCategory.id,
+      name: editingCategory.name,
+      type: editingCategory.type,
+      color: editingCategory.color
+    });
+  };
+
   const handleDelete = (id) => {
-    deleteMutation.mutate(id);
+     if (window.confirm("Are you sure you want to delete this category?")) {
+      deleteMutation.mutate(id);
+     }
     console.log("Delete Category:", id);
   };
 
@@ -81,7 +103,15 @@ const Categories = () => {
                           {cat.type}
                         </span>
                       </div>
-                      <button onClick={() => handleDelete(cat.id)} className="btn btn-sm btn-outline-danger">Delete</button>
+                      <div className="d-flex gap-2">
+                        {/* NEW: Edit Button */}
+                        <button onClick={() => setEditingCategory(cat)} className="btn btn-sm btn-outline-primary fw-bold px-3">
+                          Edit
+                        </button>
+                        <button onClick={() => handleDelete(cat.id)} className="btn btn-sm btn-outline-danger fw-bold px-3">
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -90,6 +120,47 @@ const Categories = () => {
           </div>
         </div>
       </div>
+      {/* Edit Category Modal (Only visible when editingCategory is not null) */}
+      {editingCategory && (
+        <>
+          <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content border-0 shadow-lg rounded-4">
+                <div className="modal-header border-bottom-0 pb-0">
+                  <h5 className="modal-title fw-bold">Edit Category</h5>
+                  <button type="button" className="btn-close" onClick={() => setEditingCategory(null)}></button>
+                </div>
+                <div className="modal-body p-4">
+                  <form onSubmit={handleEditSubmit}>
+                    <div className="mb-3">
+                      <label className="form-label fw-semibold">Category Name</label>
+                      <input type="text" name="name" className="form-control" value={editingCategory.name} onChange={handleEditChange} required />
+                    </div>
+                    
+                    <div className="mb-3">
+                      <label className="form-label fw-semibold">Type</label>
+                      <select name="type" className="form-select" value={editingCategory.type} onChange={handleEditChange}>
+                        <option value="EXPENSE">Expense</option>
+                        <option value="INCOME">Income</option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <label className="form-label fw-semibold">Color</label>
+                      <input type="color" name="color" className="form-control form-control-color w-100" value={editingCategory.color} onChange={handleEditChange} />
+                    </div>
+                    <div className="d-flex gap-2 justify-content-end mt-4">
+                      <button type="button" className="btn btn-light fw-bold" onClick={() => setEditingCategory(null)}>Cancel</button>
+                      <button type="submit" className="btn btn-primary fw-bold" disabled={updateMutation.isPending}>
+                        {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

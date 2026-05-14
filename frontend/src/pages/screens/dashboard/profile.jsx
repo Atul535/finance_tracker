@@ -12,6 +12,7 @@ const Profile = () => {
   const [profileData, setProfileData] = useState({ name: '', email: '' });
   const [profilePicture, setProfilePicture] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [removePicture, setRemovePicture] = useState(false);
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -38,7 +39,14 @@ const Profile = () => {
       setProfilePicture(file);
       // Create a temporary URL to preview the image before actually uploading it
       setPreviewUrl(URL.createObjectURL(file));
+      setRemovePicture(false);
     }
+  };
+
+   const handleRemovePicture = () => {
+    setProfilePicture(null);
+    setPreviewUrl(null);
+    setRemovePicture(true);
   };
 
   const handleProfileSubmit = (e) => {
@@ -51,6 +59,8 @@ const Profile = () => {
     }
     if (profilePicture) {
         formData.append('profilePicture', profilePicture);
+    } else if (removePicture) {
+        formData.append('removePicture', 'true');
     }
     
     // Only submit if the user actually changed something
@@ -111,6 +121,9 @@ const Profile = () => {
                       Change Picture
                       <input type="file" accept="image/*" className="d-none" onChange={handleImageChange} />
                     </label>
+                    <button type="button" className="btn btn-outline-danger btn-sm fw-bold" style={{ marginLeft: '10px' }} onClick={handleRemovePicture}>
+                      Remove Picture
+                    </button>
                     <p className="text-muted small mt-1 mb-0">JPG, PNG or WebP (Max 5MB)</p>
                   </div>
                 </div>
