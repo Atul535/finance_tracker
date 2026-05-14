@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'finance_tracker_profiles',
         allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-        transaformation: [{ width: 500, height: 500, crop: 'limit' }]
+        transformation: [{ width: 500, height: 500, crop: 'limit' }]
     }
 });
 

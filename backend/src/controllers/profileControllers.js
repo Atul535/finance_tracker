@@ -4,19 +4,19 @@ const bcrypt = require('bcrypt');
 const updateProfile = async (req, res, next) => {
     try {
         const userId = req.user.id;
-        const { name } = req.body;
+        const { name, removePicture } = req.body;
 
-        let profilePictureUrl = undefined;
+        let dataToUpdate = {};
+        if (name) dataToUpdate.name = name;
 
         if (req.file) {
-            profilePictureUrl = req.file.path;
+            dataToUpdate.profilePictureUrl = req.file.path;
+        } else if (removePicture === 'true') {
+            dataToUpdate.profilePictureUrl = null;
         }
         const updatedUser = await prisma.user.update({
             where: { id: userId },
-            data: {
-                ...(name && { name }),
-                ...(profilePictureUrl && { profilePictureUrl }),
-            },
+            data: dataToUpdate,
             select: {
                 id: true,
                 name: true,
