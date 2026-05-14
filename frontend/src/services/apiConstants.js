@@ -16,3 +16,9 @@ export const TRANSACTION_ENDPOINTS = {
     CREATE: '/transactions/create',
     DELETE: (id) => `/transactions/delete/${id}`
 };
+
+export const PROFILE_ENDPOINTS = {
+    UPDATE: '/profile/update',
+    GET: '/profile/get',
+    CHANGE_PASSWORD: '/profile/change-password'
+};

@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 export const notifySuccess = (message) => {
     toast.success(message, {
@@ -10,6 +10,7 @@ export const notifySuccess = (message) => {
         },
     });
 };
+
 export const notifyError = (message) => {
     toast.error(message, {
         duration: 4000,
@@ -20,6 +21,7 @@ export const notifyError = (message) => {
         },
     });
 };
+
 export const notifyWarn = (message) => {
     toast.warn(message, {
         duration: 3000,
@@ -30,6 +32,7 @@ export const notifyWarn = (message) => {
         },
     });
 };
+
 export const notifyLoading = (message) => {
     toast.loading(message, {
         duration: 3000,

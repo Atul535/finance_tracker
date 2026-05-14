@@ -21,6 +21,9 @@ const MainLayout = () => {
           <NavLink to="/dashboard" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
             Dashboard
           </NavLink>
+          <NavLink to="/profile" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
+            Profile
+          </NavLink>
           
           <NavLink to="/transactions" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
             Transactions
