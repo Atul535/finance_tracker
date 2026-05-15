@@ -7,7 +7,7 @@ export const useGetBudget = () => {
     return useQuery({
         queryKey: ['budget'],
         queryFn: async () => {
-            const response = await api.get(BUDGET_ENDPOINTS.GET_ALL);
+            const response = await api.get(BUDGET_ENDPOINTS.GET);
             return response.data;
         },
         onError: (error) => {
@@ -34,17 +34,17 @@ export const useSetBudget = (onSuccessCallback) => {
     });
 };
 
-export const useDeletebudget =()=>{
+export const useDeletebudget = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async(id)=>{
+        mutationFn: async (id) => {
             await api.delete(BUDGET_ENDPOINTS.DELETE(id));
         },
-        onSuccess:()=>{
-            queryClient.invalidateQueries({queryKey:['budget']});
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['budget'] });
             notifySuccess("Budget deleted successfully");
         },
-        onError:(error)=>{
+        onError: (error) => {
             notifyError(error.response?.data?.message || "Error in deleting budget");
         }
     });
