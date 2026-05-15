@@ -56,7 +56,7 @@ const getBudget = async (req, res, next) => {
 
         // Calculate the first day of the current month
         const now = new Date();
-        const startOfMonth = new Date(now.getDate.getFullYear(), now.getMonth(), 1);
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
         // For each budget, dynamically calculate how much has been spent this month!
         const budgetWithSpending = await Promise.all(budget.map(async (budget) => {
