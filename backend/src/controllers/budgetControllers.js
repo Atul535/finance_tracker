@@ -4,29 +4,45 @@ const setBudget = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const { categoryId, amount } = req.body;
+
         if (!categoryId || !amount) {
-            return res.status(400).json({ message: "all fiels are required" })
+            return res.status(400).json({ message: "Category ID and amount are required." });
         }
-        const budget = await prisma.budget.create({
+
+        // Manually find the existing budget first
+        const existingBudget = await prisma.budget.findFirst({
             where: {
-                userId_categoryId: {
-                    userId,
-                    categoryId: parseInt(categoryId)
-                }
-            },
-            update: { amount: parseInt(amount) },
-            create: {
                 userId,
-                categoryId: parseInt(categoryId),
-                amount: parseInt(amount)
-            },
-            include: { category: true }
+                categoryId: parseInt(categoryId)
+            }
         });
+
+        let budget;
+        if (existingBudget) {
+            // Budget exists -> UPDATE it using the safe primary key (id)
+            budget = await prisma.budget.update({
+                where: { id: existingBudget.id },
+                data: { amount: parseFloat(amount) },
+                include: { category: true }
+            });
+        } else {
+            // Budget doesn't exist -> CREATE a new one
+            budget = await prisma.budget.create({
+                data: {
+                    userId,
+                    categoryId: parseInt(categoryId),
+                    amount: parseFloat(amount)
+                },
+                include: { category: true }
+            });
+        }
+
         res.status(200).json(budget);
     } catch (error) {
         next(error);
     }
 };
+
 
 const getBudget = async (req, res, next) => {
     try {
