@@ -8,6 +8,7 @@ import Profile from './pages/screens/dashboard/profile';
 import Dashboard from './pages/screens/dashboard/dashboard';
 import Budget from './pages/screens/dashboard/budget';
 import Reports from './pages/screens/dashboard/reports';
+import Reminders from './pages/screens/dashboard/reminders';
 import {Toaster} from 'react-hot-toast';
 import './App.css';
 import Transactions from './pages/screens/dashboard/transactions';
