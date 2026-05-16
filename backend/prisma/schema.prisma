@@ -19,6 +19,7 @@ model User {
   sessions          Session[]
   categories        Category[]
   transactions      Transaction[]
+  reminders         PaymentReminder[]  
   budgets           Budget[]
 
   @@schema("finance_tracker") // Force Prisma to use the correct schema!
@@ -76,3 +77,19 @@ model Budget {
   @@unique([userId, categoryId]) // Ensures one budget per category per user!
   @@schema("finance_tracker")
 }
+
+model PaymentReminder {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  amount      Float
+  dueDate     DateTime
+  isPaid      Boolean  @default(false)
+  isRecurring Boolean  @default(false)
+  recurrence  String?  // "MONTHLY", "WEEKLY", "YEARLY"
+  createdAt   DateTime @default(now())
+
+  @@schema("finance_tracker")
+}
+
