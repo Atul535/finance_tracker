@@ -9,6 +9,7 @@ const transactionRoutes = require('./src/routes/transactionRoutes');
 const profileRoutes = require('./src/routes/profileRoutes');
 const budgetRoutes = require('./src/routes/budgetRoutes');
 const reportRoutes = require('./src/routes/reportRoutes');
+const reminderRoutes = require('./src/routes/reminderRoutes');
 
 app.use(cors({
     origin: ['http://localhost:5173', 'https://finance-tracker-7o3o.onrender.com'], // Add your future frontend URL here later!
@@ -24,6 +25,7 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/budget', budgetRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/reminders', reminderRoutes);
 
 app.get('/', (req, res) => {
     res.send('Finance Tracker API is running!');
