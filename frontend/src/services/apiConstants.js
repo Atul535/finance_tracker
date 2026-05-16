@@ -34,3 +34,10 @@ export const REPORT_ENDPOINTS = {
     CATEGORY_BREAKDOWN: '/reports/category-breakdown'
 };
 
+export const REMINDER_ENDPOINTS = {
+    CREATE: '/reminders/create',
+    GET: '/reminders/get',
+    MARK_PAID: (id) => `/reminders/mark-paid/${id}`,
+    DELETE: (id) => `/reminders/delete/${id}`
+};
+

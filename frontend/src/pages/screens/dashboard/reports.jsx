@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
-import { useGetMonthlySummary, useGetCategoryBreakdown } from '../../../hooks/useReports';
+import { useGetMonthlyReport, useGetCategoryBreakdown } from '../../../hooks/useReports';
 import { useGetTransactions } from '../../../hooks/useTransactions';
 
 // Register Chart.js components
@@ -44,7 +44,7 @@ const exportToCSV = (transactions) => {
 };
 
 const Reports = () => {
-    const { data: monthlySummary = [], isLoading: loadingMonthly } = useGetMonthlySummary();
+    const { data: monthlySummary = [], isLoading: loadingMonthly } = useGetMonthlyReport();
     const { data: categoryBreakdown = [], isLoading: loadingCategory } = useGetCategoryBreakdown();
     const { data: transactions = [] } = useGetTransactions();
 

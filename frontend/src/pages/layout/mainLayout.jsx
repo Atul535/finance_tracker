@@ -38,6 +38,9 @@ const MainLayout = () => {
           <NavLink to="/reports" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
              Reports
           </NavLink>
+          <NavLink to="/reminders" className={({ isActive }) => `fw-semibold text-decoration-none p-2 rounded ${isActive ? 'text-white bg-primary bg-opacity-25' : 'text-secondary'}`}>
+            Reminders
+          </NavLink>
         </div>
         <button onClick={handleLogout} className="btn btn-outline-danger fw-bold mt-auto">
           Logout

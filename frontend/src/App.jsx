@@ -7,6 +7,7 @@ import Categories from './pages/screens/dashboard/categories';
 import Profile from './pages/screens/dashboard/profile';
 import Dashboard from './pages/screens/dashboard/dashboard';
 import Budget from './pages/screens/dashboard/budget';
+import Reports from './pages/screens/dashboard/reports';
 import {Toaster} from 'react-hot-toast';
 import './App.css';
 import Transactions from './pages/screens/dashboard/transactions';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/reminders" element={<Reminders />} />
         </Route>
         
         {/* Default Redirect */}

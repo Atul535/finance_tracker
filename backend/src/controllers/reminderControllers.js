@@ -1,6 +1,6 @@
 const prisma = require('../../prismaClient');
 
-const createReminder = async (req, req, next) => {
+const createReminder = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const { title, amount, dueDate, isRecurring, recurrence } = req.body;
