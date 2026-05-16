@@ -28,3 +28,9 @@ export const BUDGET_ENDPOINTS = {
     CREATE: '/budget/create',
     DELETE: (id) => `/budget/delete/${id}`
 };
+
+export const REPORT_ENDPOINTS = {
+    MONTHLY: '/reports/monthly',
+    CATEGORY_BREAKDOWN: '/reports/category-breakdown'
+};
+

@@ -30,6 +30,7 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/budget" element={<Budget />} />
+          <Route path="/reports" element={<Reports />} />
         </Route>
         
         {/* Default Redirect */}
