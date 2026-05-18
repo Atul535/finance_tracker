@@ -54,3 +54,49 @@ export const useLogout = () => {
     };
 };
 
+export const useSendOtp=(onSuccessCallback,onErrorCallback)=>{
+    return useMutation({
+        mutationFn:async(email)=>{
+            const response = await api.post(AUTH_ENDPOINTS.FORGOT_PASSWORD,{email});
+            return response.data;
+        },
+        onSuccess:(data)=>{
+            notifySuccess(data?.message);
+            if(onSuccessCallback){
+                onSuccessCallback(data);
+            }
+        },
+        onError: (error) => {
+            const errorMessage = error.response?.data?.message || 'Failed to send OTP.';
+            notifyError(errorMessage);
+            if (onErrorCallback) {
+                onErrorCallback(error);
+            }
+        }
+    });
+};
+
+export const useResetPassword = (onSuccessCallback,onErrorCallback)=>{
+    const navigate = useNavigate();
+    return useMutation({
+        mutationFn:async(data)=>{
+            const response = await api.post(AUTH_ENDPOINTS.RESET_PASSWORD,data);
+            return response.data;
+        },
+        onSuccess:(data)=>{
+            notifySuccess(data?.message);
+            navigate('/login');
+            if(onSuccessCallback){
+                onSuccessCallback(data);
+            }
+        },
+        onError: (error) => {
+            const errorMessage = error.response?.data?.message || 'Failed to reset password.';
+            notifyError(errorMessage);
+            if (onErrorCallback) {
+                onErrorCallback(error);
+            }
+        }
+    });
+};
+

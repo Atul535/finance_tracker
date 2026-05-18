@@ -1,7 +1,9 @@
 export const AUTH_ENDPOINTS = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
-    REGISTER: '/auth/register'
+    REGISTER: '/auth/register',
+    FORGOT_PASSWORD:'/auth/forget-password',
+    RESET_PASSWORD:'/auth/reset-password',
 };
 
 export const CATEGORY_ENDPOINTS = {

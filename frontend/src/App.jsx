@@ -9,6 +9,7 @@ import Dashboard from './pages/screens/dashboard/dashboard';
 import Budget from './pages/screens/dashboard/budget';
 import Reports from './pages/screens/dashboard/reports';
 import Reminders from './pages/screens/dashboard/reminders';
+import ForgotPassword from './pages/screens/auth_screen/forgetPassword';
 import {Toaster} from 'react-hot-toast';
 import './App.css';
 import Transactions from './pages/screens/dashboard/transactions';
@@ -34,6 +35,7 @@ function App() {
           <Route path="/budget" element={<Budget />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/reminders" element={<Reminders />} />
+          <Route path="/forget-password" element={<ForgotPassword />} />
         </Route>
         
         {/* Default Redirect */}
