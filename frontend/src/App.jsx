@@ -24,6 +24,7 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forget-password" element={<ForgotPassword />} />
         </Route>
 
         {/* Dashboard Routes wrapped in MainLayout */}
@@ -35,7 +36,6 @@ function App() {
           <Route path="/budget" element={<Budget />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/reminders" element={<Reminders />} />
-          <Route path="/forget-password" element={<ForgotPassword />} />
         </Route>
         
         {/* Default Redirect */}

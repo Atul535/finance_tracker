@@ -49,7 +49,11 @@ const Login = () => {
               required 
             />
           </div>
-
+          <div className='d-flex justify-content-end'>
+            <Link to="/forget-password" className="text-primary fw-bold text-decoration-none mb-2">
+                Forget Password?
+            </Link>
+          </div>
           {/* Show a loading spinner if React Query says it's currently fetching */}
           <button 
             type="submit" 

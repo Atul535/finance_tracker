@@ -29,7 +29,9 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div>
+    <div className="d-flex align-items-center justify-content-center min-vh-100">
+      <div className="card shadow border-0 rounded-4 py-5 px-4" style={{ width: '100%', maxWidth: '480px' }}>
+
             {/* Step indicator */}
             <div className="d-flex align-items-center gap-2 mb-4 justify-content-center">
                 <div className="rounded-circle d-flex align-items-center justify-content-center fw-bold"
@@ -121,6 +123,7 @@ const ForgotPassword = () => {
                 Remember it? <Link to="/login" className="text-primary fw-semibold">Back to Login</Link>
             </p>
         </div>
+    </div>
     );
 };
 
