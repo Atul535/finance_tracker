@@ -10,12 +10,12 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const sendOtpEmail = async (toEmail,otp) => {
+const sendOtpEmail = async (toEmail, otp) => {
     await transporter.sendMail({
-        from: `'Finance Tracker <${process.env.EMAIL_USER}>`,
+        from: process.env.EMAIL_USER,
         to: toEmail,
         subject: 'Reset Your Password',
-        html:  `
+        html: `
             <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 30px; background: #f9fafb; border-radius: 8px;">
                 <h2 style="color: #6366f1;">Finance Tracker</h2>
                 <p>You requested a password reset. Use the OTP below:</p>
