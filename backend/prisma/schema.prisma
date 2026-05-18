@@ -21,6 +21,8 @@ model User {
   transactions      Transaction[]
   reminders         PaymentReminder[]  
   budgets           Budget[]
+  resetToken        String?
+  resetTokenExpiry  DateTime?
 
   @@schema("finance_tracker") // Force Prisma to use the correct schema!
 }

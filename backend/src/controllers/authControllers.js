@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const prisma = require('../../prismaClient');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const { sendOtpEmail } = require('../utils/emailService')
 
 const registerUser = async (req, res, next) => {
     try {
@@ -139,9 +141,71 @@ const refreshAccessToken = async (req, res, next) => {
     }
 };
 
+const forgetPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required!' });
+        }
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        // generate secure token
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiry = new Date(Date.now() + 15 * 60 * 1000);
+
+        //save token to the user record
+        await prisma.user.update({
+            where: { email },
+            data: {
+                resetToken: otp,
+                resetTokenExpiry: expiry
+            }
+        });
+        await sendOtpEmail(email, otp);
+        res.status(200).json({ message: 'Otp sent to your email!' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const resetPassword = async (req, res, next) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        if (!email || !otp || !newPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+        const user = await prisma.user.findFirst({
+            where: {
+                email,
+                resetToken: otp,
+                resetTokenExpiry: { gte: new Date() }
+            }
+        });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: "Password must be at least 6 characters long" });
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                resetToken: null,
+                resetTokenExpiry: null
+            }
+        });
+        return res.status(200).json({ message: 'Password reset successfully!' });
+    } catch (error) {
+        next(error);
+    }
+};
 
 
 
 
 
-module.exports = { registerUser, loginUser, refreshAccessToken };
+module.exports = { registerUser, loginUser, refreshAccessToken, forgetPassword, resetPassword };
