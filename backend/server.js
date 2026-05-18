@@ -15,7 +15,7 @@ const reportRoutes = require('./src/routes/reportRoutes');
 const reminderRoutes = require('./src/routes/reminderRoutes');
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://finance-tracker-7o3o.onrender.com'], // Add your future frontend URL here later!
+    origin: ['http://localhost:5173', 'https://finance-tracker-b7cs.onrender.com'], // Add your future frontend URL here later!
     credentials: true, // This allows cookies/tokens to be sent
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
