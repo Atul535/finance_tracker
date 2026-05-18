@@ -47,7 +47,7 @@ export const useDeleteTransaction = (onSuccessCallback) => {
             notifySuccess('Transaction deleted successfully!');
             if (onSuccessCallback) onSuccessCallback();
         },
-        onError: () => {
+        onError: (error) => {
             const message = error?.response?.data?.message || 'Failed to delete transaction';
             notifyError(message);
         }
