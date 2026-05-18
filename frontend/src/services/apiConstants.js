@@ -2,8 +2,8 @@ export const AUTH_ENDPOINTS = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     REGISTER: '/auth/register',
-    FORGOT_PASSWORD:'/auth/forget-password',
-    RESET_PASSWORD:'/auth/reset-password',
+    FORGOT_PASSWORD: '/auth/forget-password',
+    RESET_PASSWORD: '/auth/reset-password',
 };
 
 export const CATEGORY_ENDPOINTS = {
@@ -33,7 +33,7 @@ export const BUDGET_ENDPOINTS = {
 
 export const REPORT_ENDPOINTS = {
     MONTHLY: '/reports/monthly',
-    CATEGORY_BREAKDOWN: '/reports/category-breakdown'
+    CATEGORY_BREAKDOWN: '/reports/category'
 };
 
 export const REMINDER_ENDPOINTS = {
